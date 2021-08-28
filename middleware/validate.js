@@ -19,9 +19,8 @@ module.exports = (method) => {
       return [
         check('email', 'Please include valid email')
           .isEmail(),
-        check('password', 'Please enter a password with 6 or more characters')
-          .not()
-          .isEmpty()
+        check('password', 'Please enter a password')
+          .exists(),
       ]
     }
   }
