@@ -1,5 +1,11 @@
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+
 const authMiddleware = require('../../middleware/auth');
+const validate = require('../../middleware/validate');
+
 const User = require('../../models/User');
 
 // @route   GET api/auth
@@ -15,6 +21,50 @@ router.get('/', authMiddleware(), async (req, res) => {
     console.error(err);
 
     res.status(500).send('Server error');
+  }
+});
+
+// @route   POST api/auth
+// @desc    Authenticate user & Return token
+// @access  Public
+router.post('/', validate('loginUser'), async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check for existing user
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ errors: [{ msg: 'Invalid credentials' }] });
+    }
+
+    // Check for password match
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ errors: [{ msg: 'Invalid credentials' }] });
+    }
+
+    // Return JWT
+    const payload = {
+      user: {
+        id: user.id,
+      }
+    }
+
+    jwt.sign(
+      payload,
+      config.get('jwtSecret'),
+      { expiresIn: config.get('jwtExpiresIn') },
+      (err, token) => {
+        if (err) throw err;
+
+        res.json({ token });
+      }
+    );
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Internal server error')
   }
 });
 
