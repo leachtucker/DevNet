@@ -15,12 +15,24 @@ module.exports = (method) => {
           })
       ]
     }
+
     case 'loginUser': {
       return [
         check('email', 'Please include valid email')
           .isEmail(),
         check('password', 'Please enter a password')
           .exists(),
+      ]
+    }
+
+    case 'createProfile': {
+      return [
+        check('status', 'Status is required')
+          .not()
+          .isEmpty(),
+        check('skills', 'Skills is required')
+          .not()
+          .isEmpty(),
       ]
     }
   }
