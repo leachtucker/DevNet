@@ -3,15 +3,16 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const authMiddleware = require('../../middleware/auth');
+const auth = require('../../middleware/auth');
 const validate = require('../../middleware/validate');
+const errorHandler = require('../../middleware/errorHandler');
 
 const User = require('../../models/User');
 
 // @route   GET api/auth
 // @desc    Test route
 // @access  Public
-router.get('/', authMiddleware(), async (req, res) => {
+router.get('/', auth(), async (req, res) => {
   try {
     console.log(req.user);
     const user = await User.findById(req.user.id).select('-password');
@@ -27,7 +28,7 @@ router.get('/', authMiddleware(), async (req, res) => {
 // @route   POST api/auth
 // @desc    Authenticate user & Return token
 // @access  Public
-router.post('/', validate('loginUser'), async (req, res) => {
+router.post('/', validate('loginUser'), errorHandler(), async (req, res) => {
   const { email, password } = req.body;
 
   try {
