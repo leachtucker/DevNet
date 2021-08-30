@@ -144,4 +144,48 @@ router.delete('/', auth(), async (req, res) => {
   }
 });
 
+// @route   PUT api/profile/experience
+// @desc    Updates/adds profile experience
+// @access  Private
+router.put('/experience', auth(), validate('updateExperience'), errorHandler(), async (req, res) => {
+  try {
+    const {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
+
+    const newExperience = {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description
+    };
+
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    // Check for profile--if not exist
+    if (!profile) {
+      res.status(400).json({ msg: "No profile exists for this user" });
+    }
+
+    profile.experience.unshift(newExperience);
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).send('Internal server error');
+  }
+});
+
+
 module.exports = router;
