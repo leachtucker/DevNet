@@ -66,5 +66,13 @@ module.exports = (method) => {
           .isEmpty(),
       ]
     }
+
+    case 'createPost': {
+      return [
+        check('text', 'Text is required')
+          .not()
+          .isEmpty(),
+      ]
+    }
   }
 }
