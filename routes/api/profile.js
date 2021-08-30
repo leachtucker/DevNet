@@ -198,7 +198,7 @@ router.delete('/experience/:exp_id', auth(), async (req, res) => {
       res.status(400).json({ msg: "No profile exists for this user" });
     }
 
-    // Find index & splice--must splice rather than pop in order to keep order
+    // Find index & splice--must splice rather than pop in order to keep original order
     const expIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
 
     if (expIndex == -1) {
@@ -257,6 +257,36 @@ router.put('/education', auth(), validate('updateEducation'), errorHandler(), as
   } catch (err) {
     console.error(err);
 
+    res.status(500).send('Internal server error');
+  }
+});
+
+// @route   DELETE api/profile/education/:exp_id
+// @desc    Remove education from profile
+// @access  Private
+router.delete('/education/:edu_id', auth(), async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    if (!profile) {
+      res.status(400).json({ msg: "No profile exists for this user" });
+    }
+
+    // Find index & splice--must splice rather than pop in order to keep original order
+    const eduIndex = profile.education.map(item => item.id).indexOf(req.params.edu_id);
+
+    if (eduIndex == -1) {
+      return res.status(400).json({ msg: "No education with this ID" });
+    }
+
+    profile.education.splice(eduIndex, 1);
+
+    // Save modified profile
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err);
     res.status(500).send('Internal server error');
   }
 });
