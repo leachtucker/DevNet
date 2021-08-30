@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const axios = require('axios');
+const config = require('config');
 
 const auth = require('../../middleware/auth');
 const validate = require('../../middleware/validate');
@@ -173,7 +175,7 @@ router.put('/experience', auth(), validate('updateExperience'), errorHandler(), 
 
     // Check for profile--if not exist
     if (!profile) {
-      res.status(400).json({ msg: "No profile exists for this user" });
+      return res.status(400).json({ msg: "No profile exists for this user" });
     }
 
     profile.experience.unshift(newExperience);
@@ -195,7 +197,7 @@ router.delete('/experience/:exp_id', auth(), async (req, res) => {
     const profile = await Profile.findOne({ user: req.user.id });
 
     if (!profile) {
-      res.status(400).json({ msg: "No profile exists for this user" });
+      return res.status(400).json({ msg: "No profile exists for this user" });
     }
 
     // Find index & splice--must splice rather than pop in order to keep original order
@@ -246,7 +248,7 @@ router.put('/education', auth(), validate('updateEducation'), errorHandler(), as
 
     // Check for profile--if not exist
     if (!profile) {
-      res.status(400).json({ msg: "No profile exists for this user" });
+      return res.status(400).json({ msg: "No profile exists for this user" });
     }
 
     // Add new education obj to beginning of education array
@@ -269,7 +271,7 @@ router.delete('/education/:edu_id', auth(), async (req, res) => {
     const profile = await Profile.findOne({ user: req.user.id });
 
     if (!profile) {
-      res.status(400).json({ msg: "No profile exists for this user" });
+      return res.status(400).json({ msg: "No profile exists for this user" });
     }
 
     // Find index & splice--must splice rather than pop in order to keep original order
@@ -287,8 +289,31 @@ router.delete('/education/:edu_id', auth(), async (req, res) => {
     res.json(profile);
   } catch (err) {
     console.error(err);
+
     res.status(500).send('Internal server error');
   }
 });
+
+// @route   GET api/profile/github/:username
+// @desc    Get user repos from github
+// @access  Public
+router.get('/github/:username', async (req, res) => {
+  try {
+    const reqURL = `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${config.get('githubClientID')}&client_secret=${config.get('githubSecret')}`;
+
+    const response = await axios.get(reqURL);
+
+    res.json(response.data);
+  } catch (err) {
+    console.error(err);
+
+    if (err.response && err.response.status == 404) {
+      return res.status(404).json({ msg: "No github profile found with that username" });
+    }
+
+    res.status(500).send('Internal server error');
+  }
+});
+
 
 module.exports = router;
