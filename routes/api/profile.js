@@ -187,5 +187,48 @@ router.put('/experience', auth(), validate('updateExperience'), errorHandler(), 
   }
 });
 
+// @route   PUT api/profile/education
+// @desc    Updates/adds profile education
+// @access  Private
+router.put('/education', auth(), validate('updateEducation'), errorHandler(), async (req, res) => {
+  try {
+    const {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
+
+    const newEducation = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    };
+
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    // Check for profile--if not exist
+    if (!profile) {
+      res.status(400).json({ msg: "No profile exists for this user" });
+    }
+
+    // Add new education obj to beginning of education array
+    profile.education.unshift(newEducation);
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).send('Internal server error');
+  }
+});
 
 module.exports = router;
