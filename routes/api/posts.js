@@ -34,7 +34,11 @@ router.post('/', auth(), validate('createPost'), errorHandler(), async (req, res
 // @access  Private
 router.get('/', auth(), async (req, res) => {
   try {
-    const posts = await Post.find().populate('user', ['name', 'avatar']).sort({ date: -1 });
+    const posts = await Post.find()
+      .populate('user', ['name', 'avatar'])
+      .populate('likes.user', ['name', 'avatar'])
+      .populate('comments.user', ['name', 'avatar'])
+      .sort({ date: -1 });
 
     res.json(posts);
   } catch (err) {
@@ -67,7 +71,7 @@ router.get('/:post_id', auth(), async (req, res) => {
   }
 });
 
-// @route   Delete api/posts/:post_id
+// @route   DELETE api/posts/:post_id
 // @desc    Delete post by its ID
 // @access  Private
 router.delete('/:post_id', auth(), async (req, res) => {
@@ -119,6 +123,8 @@ router.put('/like/:post_id', auth(), async (req, res) => {
     post.likes.unshift({ user: req.user.id });
     await post.save();
 
+    // Populate with user info
+    await post.populate('likes.user', ['name', 'avatar']);
     res.json(post.likes);
   } catch (err) {
     console.error(error);
@@ -149,9 +155,41 @@ router.put('/unlike/:post_id', auth(), async (req, res) => {
     post.likes.splice(removeIndex, 1);
     await post.save();
 
+    // Populate with user info
+    await post.populate('likes.user', ['name', 'avatar']);
     res.json(post.likes);
   } catch (err) {
     console.error(error);
+    res.status(500).send('Internal server error');
+  }
+});
+
+// @route   POST api/posts/comment/:post_id
+// @desc    Comment on a post
+// @access  Private
+router.post('/comment/:post_id', auth(), validate('createComment'), errorHandler(), async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.post_id);
+
+    // Check if post exists
+    if (!post) {
+      return res.status(404).json({ msg: "Post not found" });
+    }
+
+    const newComment = {
+      user: req.user.id,
+      text: req.body.text,
+    };
+
+    // Add new comment to beginning of array--unshift
+    post.comments.unshift(newComment);
+    await post.save();
+
+    // Populate with user info
+    await post.populate('comments.user', ['name', 'avatar'])
+    res.json(post.comments);
+  } catch (err) {
+    console.error(err);
     res.status(500).send('Internal server error');
   }
 });
