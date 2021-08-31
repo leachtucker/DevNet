@@ -13,7 +13,7 @@ const User = require('../../models/User');
 // @desc    Register user
 // @access  Public
 router.post('/', validate('registerUser'), errorHandler(), async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, password2 } = req.body;
 
   try {
     // Check for existing user
@@ -21,6 +21,11 @@ router.post('/', validate('registerUser'), errorHandler(), async (req, res) => {
 
     if (user) {
       return res.status(400).json({ errors: [{ msg: 'User already exists' }] })
+    };
+
+    // Check that the provided passwords match
+    if (password !== password2) {
+      return res.status(400).json({ msg: "Passwords do not match" });
     }
 
     // Get users gravatar--from email
