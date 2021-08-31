@@ -194,4 +194,42 @@ router.post('/comment/:post_id', auth(), validate('createComment'), errorHandler
   }
 });
 
+// @route   DELETE api/posts/comment/:post_id/:comment_id
+// @desc    Delete a comment on a post
+// @access  Private
+router.delete('/comment/:post_id/:comment_id', auth(), async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.post_id);
+
+    // Check if post exists
+    if (!post) {
+      return res.status(404).json({ msg: "Post not found" });
+    }
+
+    // Find remove index
+    const removeIndex = post.comments.map(comment => comment.id).indexOf(req.params.comment_id);
+
+    // Check that the comment exists on the post
+    if (removeIndex === -1) {
+      return res.status(404).json({ msg: "Comment not found" });
+    }
+
+    // Check that the comment belongs to the user
+    if (post.comments[removeIndex].user != req.user.id) {
+      return res.status(401).json({ msg: "Comment does not belong to user" });
+    }
+
+    // Splice comment from array--use splice to keep initial order of array
+    post.comments.splice(removeIndex, 1);
+    await post.save();
+
+    // Populate with user info
+    await post.populate('comments.user', ['name', 'avatar'])
+    res.json(post.comments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
+});
+
 module.exports = router;
