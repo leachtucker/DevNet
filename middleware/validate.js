@@ -74,5 +74,13 @@ module.exports = (method) => {
           .isEmpty(),
       ]
     }
+
+    case 'createComment': {
+      return [
+        check('text', 'Text is required')
+          .not()
+          .isEmpty(),
+      ]
+    }
   }
 }
