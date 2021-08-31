@@ -1,8 +1,6 @@
 const router = require('express').Router();
 
 const Post = require('../../models/Post');
-const Profile = require('../../models/Profile');
-const User = require('../../models/User');
 
 const auth = require('../../middleware/auth');
 const errorHandler = require('../../middleware/errorHandler');
