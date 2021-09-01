@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 const auth = require('../../middleware/auth');
-const validate = require('../../middleware/validate');
+const validator = require('../../middleware/validator');
 const errorHandler = require('../../middleware/errorHandler');
 
 const User = require('../../models/User');
@@ -28,7 +28,7 @@ router.get('/', auth(), async (req, res) => {
 // @route   POST api/auth
 // @desc    Authenticate user & Return token
 // @access  Public
-router.post('/', validate('loginUser'), errorHandler(), async (req, res) => {
+router.post('/', validator('loginUser'), errorHandler(), async (req, res) => {
   const { email, password } = req.body;
 
   try {

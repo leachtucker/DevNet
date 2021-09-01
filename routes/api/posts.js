@@ -4,12 +4,12 @@ const Post = require('../../models/Post');
 
 const auth = require('../../middleware/auth');
 const errorHandler = require('../../middleware/errorHandler');
-const validate = require('../../middleware/validate');
+const validator = require('../../middleware/validator');
 
 // @route   POST api/posts
 // @desc    Create a post
 // @access  Private
-router.post('/', auth(), validate('createPost'), errorHandler(), async (req, res) => {
+router.post('/', auth(), validator('createPost'), errorHandler(), async (req, res) => {
   try {
     const newPostFields = {
       user: req.user.id,
@@ -165,7 +165,7 @@ router.put('/unlike/:post_id', auth(), async (req, res) => {
 // @route   POST api/posts/comment/:post_id
 // @desc    Comment on a post
 // @access  Private
-router.post('/comment/:post_id', auth(), validate('createComment'), errorHandler(), async (req, res) => {
+router.post('/comment/:post_id', auth(), validator('createComment'), errorHandler(), async (req, res) => {
   try {
     const post = await Post.findById(req.params.post_id);
 

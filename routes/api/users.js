@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const validate = require('../../middleware/validate');
+const validator = require('../../middleware/validator');
 const errorHandler = require('../../middleware/errorHandler');
 
 const User = require('../../models/User');
@@ -12,7 +12,7 @@ const User = require('../../models/User');
 // @route   POST api/users
 // @desc    Register user
 // @access  Public
-router.post('/', validate('registerUser'), errorHandler(), async (req, res) => {
+router.post('/', validator('registerUser'), errorHandler(), async (req, res) => {
   const { name, email, password, password2 } = req.body;
 
   try {

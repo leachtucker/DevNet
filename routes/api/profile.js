@@ -3,7 +3,7 @@ const axios = require('axios');
 const config = require('config');
 
 const auth = require('../../middleware/auth');
-const validate = require('../../middleware/validate');
+const validator = require('../../middleware/validator');
 const errorHandler = require('../../middleware/errorHandler');
 
 const Profile = require('../../models/Profile');
@@ -30,7 +30,7 @@ router.get('/me', auth(), async (req, res) => {
 // @route   POST api/profile/
 // @desc    Create or update user profile
 // @access  Private
-router.post('/', auth(), validate('createProfile'), errorHandler(), async (req, res) => {
+router.post('/', auth(), validator('createProfile'), errorHandler(), async (req, res) => {
   const {
     company,
     website,
@@ -149,7 +149,7 @@ router.delete('/', auth(), async (req, res) => {
 // @route   PUT api/profile/experience
 // @desc    Adds profile experience
 // @access  Private
-router.put('/experience', auth(), validate('updateExperience'), errorHandler(), async (req, res) => {
+router.put('/experience', auth(), validator('updateExperience'), errorHandler(), async (req, res) => {
   try {
     const {
       title,
@@ -222,7 +222,7 @@ router.delete('/experience/:exp_id', auth(), async (req, res) => {
 // @route   PUT api/profile/education
 // @desc    Adds profile education
 // @access  Private
-router.put('/education', auth(), validate('updateEducation'), errorHandler(), async (req, res) => {
+router.put('/education', auth(), validator('updateEducation'), errorHandler(), async (req, res) => {
   try {
     const {
       school,
