@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Navbar from './components/layout/Navbar';
@@ -7,13 +7,27 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Alert from './components/layout/Alert';
 
-// Redux
+// Redux //
 import { Provider } from 'react-redux';
 import store from './store';
+import { loadUser } from './actions/auth';
+
+// Utils //
+import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
 
+// Check for token in local storage
+if (localStorage.getItem('token')) {
+  setAuthToken(localStorage.getItem('token'));
+}
+
 function App() {
+  useEffect(() => {
+    // Check that user is authenticated on every mount/render of app
+    store.dispatch(loadUser());
+  }, []);
+
   return (
     <Provider store={store}>
       <Router>
