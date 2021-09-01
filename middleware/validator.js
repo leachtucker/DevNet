@@ -1,4 +1,5 @@
 const { check } = require('express-validator');
+const errorHandler = require('./errorHandler');
 
 module.exports = (method) => {
   switch (method) {
@@ -17,7 +18,8 @@ module.exports = (method) => {
           .not()
           .isEmpty(),
         check('password', "Please ensure that both passwords match")
-          .custom((value, {req}) => value === req.body.password2)
+          .custom((value, {req}) => value === req.body.password2),
+        errorHandler()
       ]
     }
 
@@ -27,6 +29,7 @@ module.exports = (method) => {
           .isEmail(),
         check('password', 'Please enter a password')
           .exists(),
+        errorHandler()
       ]
     }
 
@@ -38,6 +41,7 @@ module.exports = (method) => {
         check('skills', 'Skills is required')
           .not()
           .isEmpty(),
+          errorHandler()
       ]
     }
 
@@ -52,6 +56,7 @@ module.exports = (method) => {
         check('from', 'From date is required')
           .not()
           .isEmpty(),
+        errorHandler()
       ]
     }
 
@@ -69,6 +74,7 @@ module.exports = (method) => {
         check('from', 'From date is required')
           .not()
           .isEmpty(),
+        errorHandler()
       ]
     }
 
@@ -77,6 +83,7 @@ module.exports = (method) => {
         check('text', 'Text is required')
           .not()
           .isEmpty(),
+        errorHandler()
       ]
     }
 
@@ -85,6 +92,7 @@ module.exports = (method) => {
         check('text', 'Text is required')
           .not()
           .isEmpty(),
+        errorHandler()
       ]
     }
   }
