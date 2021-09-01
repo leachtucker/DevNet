@@ -9,7 +9,7 @@ const validator = require('../../middleware/validator');
 const User = require('../../models/User');
 
 // @route   GET api/auth
-// @desc    Test route
+// @desc    Returns the user's info if authenticated
 // @access  Public
 router.get('/', auth(), async (req, res) => {
   try {
