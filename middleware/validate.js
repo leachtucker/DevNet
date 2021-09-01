@@ -15,7 +15,9 @@ module.exports = (method) => {
           }),
         check('password2', 'Please enter a password with 6 or more characters')
           .not()
-          .isEmpty()
+          .isEmpty(),
+        check('password', "Please ensure that both passwords match")
+          .custom((value, {req}) => value === req.body.password2)
       ]
     }
 

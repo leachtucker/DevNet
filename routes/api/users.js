@@ -23,11 +23,6 @@ router.post('/', validate('registerUser'), errorHandler(), async (req, res) => {
       return res.status(400).json({ errors: [{ msg: 'User already exists' }] })
     };
 
-    // Check that the provided passwords match
-    if (password !== password2) {
-      return res.status(400).json({ msg: "Passwords do not match" });
-    }
-
     // Get users gravatar--from email
     const avatar = gravatar.url(email, {
       s: '200',
