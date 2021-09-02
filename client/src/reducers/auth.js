@@ -2,7 +2,9 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   AUTH_SUCCESS,
-  AUTH_FAIL
+  AUTH_FAIL,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL
 } from "../actions/types";
 
 const initialState = {
@@ -27,17 +29,16 @@ export default function auth (state = initialState, action) {
     case AUTH_FAIL:
       return {
         ...state,
+        user: null,
         token: null,
         isAuthenticated: false,
         loading: false
       }
 
     case REGISTER_SUCCESS:
-      localStorage.getItem('token');
-
       return {
         ...state,
-        token: localStorage.getItem('token'),
+        token: payload,
         isAuthenticated: true,
         loading: false
       }
@@ -47,6 +48,23 @@ export default function auth (state = initialState, action) {
         ...state,
         token: null,
         isAuthenticated: false,
+        loading: false
+      }
+
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        token: payload,
+        isAuthenticated: true,
+        loading: false
+      }
+
+    case LOGIN_FAIL:
+      return {
+        ...state,
+        user: null,
+        token: null,
+        isAuthenticated: true,
         loading: false
       }
 
