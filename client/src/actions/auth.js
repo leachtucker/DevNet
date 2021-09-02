@@ -26,6 +26,7 @@ export const register = ({ name, email, password, password2 }) => async dispatch
 
     // Send an alert!
     dispatch(setAlert('Successfully registered!', 'success'));
+
   } catch (err) {
     dispatch({ type: REGISTER_FAIL });
 
@@ -52,12 +53,13 @@ export const login = ({ email, password }) => async dispatch => {
     dispatch(loadUser());
 
     // Send an alert!
-    dispatch(setAlert('Successfully registered!', 'success'));
+    dispatch(setAlert('Successfully logged in!', 'success'));
   } catch (err) {
     dispatch({ type: LOGIN_FAIL });
 
     const errors = err.response.data.errors;
 
+    // Send alerts
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     } else {
@@ -86,6 +88,7 @@ export const loadUser = () => async dispatch => {
 
     dispatch({ type: AUTH_FAIL });
 
+    // Send alerts
     const errors = err.response.data.errors;
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
