@@ -4,14 +4,15 @@ import {
   AUTH_SUCCESS,
   AUTH_FAIL,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  LOGOUT
 } from "../actions/types";
 
 const initialState = {
+  user: null,
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   loading: true,
-  user: null
 };
 
 export default function auth (state = initialState, action) {
@@ -20,6 +21,7 @@ export default function auth (state = initialState, action) {
   switch (type) {
     case REGISTER_FAIL:
     case LOGIN_FAIL:
+    case LOGOUT:
     case AUTH_FAIL:
       return {
         ...state,

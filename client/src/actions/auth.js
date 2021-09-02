@@ -7,7 +7,8 @@ import {
   AUTH_SUCCESS,
   AUTH_FAIL,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  LOGOUT
 } from "./types";
 
 import setAuthToken from '../utils/setAuthToken';
@@ -26,7 +27,6 @@ export const register = ({ name, email, password, password2 }) => async dispatch
 
     // Send an alert!
     dispatch(setAlert('Successfully registered!', 'success'));
-
   } catch (err) {
     dispatch({ type: REGISTER_FAIL });
 
@@ -94,4 +94,19 @@ export const loadUser = () => async dispatch => {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
   }
+};
+
+// Logout
+export const logout = () => async dispatch => {
+  // Remove token from local storage
+  localStorage.removeItem('token');
+
+  // Remove token from axios headers
+  setAuthToken();
+
+  // Clear state
+  dispatch({ type: LOGOUT });
+
+  // Send an alert!
+  dispatch(setAlert('Logged out!', 'success'));
 };
