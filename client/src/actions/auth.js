@@ -17,9 +17,14 @@ export const register = ({ name, email, password, password2 }) => async dispatch
   try {
     const res = await axios.post('/api/users', { name, email, password, password2 });
 
+    // Set token to local storage. Send token in dispatch as payload
     localStorage.setItem('token', res.data.token);
     dispatch({ type: REGISTER_SUCCESS, payload: res.data.token });
 
+    // Reload user
+    dispatch(loadUser());
+
+    // Send an alert!
     dispatch(setAlert('Successfully registered!', 'success'));
   } catch (err) {
     dispatch({ type: REGISTER_FAIL });
@@ -39,9 +44,14 @@ export const login = ({ email, password }) => async dispatch => {
   try {
     const res = await axios.post('/api/auth', { email, password });
 
+    // Set token to local storage. Send token in dispatch as payload
     localStorage.setItem('token', res.data.token);
     dispatch({ type: LOGIN_SUCCESS, payload: res.data.token });
 
+    // Reload user
+    dispatch(loadUser());
+
+    // Send an alert!
     dispatch(setAlert('Successfully registered!', 'success'));
   } catch (err) {
     dispatch({ type: LOGIN_FAIL });
