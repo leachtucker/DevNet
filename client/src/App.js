@@ -17,7 +17,7 @@ import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
 
-// Check for token in local storage
+// Setup //
 if (localStorage.getItem('token')) {
   setAuthToken(localStorage.getItem('token'));
 }
