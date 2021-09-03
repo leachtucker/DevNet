@@ -101,7 +101,6 @@ export const loadUser = () => async (dispatch) => {
     localStorage.removeItem('token');
 
     dispatch({ type: AUTH_FAIL });
-    dispatch({ type: CLEAR_PROFILE });
 
     // Send alerts
     const validationErrors = err.response.data.errors;
