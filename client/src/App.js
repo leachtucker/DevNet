@@ -32,6 +32,8 @@ function App() {
     store.dispatch(loadUser());
   }, []);
 
+  // @TODO: Replace all connect HOC's with useDispatch/useSelector hooks
+
   return (
     <Provider store={store}>
       <Router>
