@@ -11,7 +11,8 @@ import { getCurrentProfile } from '../../actions/profile';
 const Dashboard = ({ profile, auth, getCurrentProfile }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, [getCurrentProfile]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.loading, profile.loading]);
 
   return profile.loading && profile.profile === null ? (
     <Spinner />
@@ -21,16 +22,20 @@ const Dashboard = ({ profile, auth, getCurrentProfile }) => {
       <p className="lead">
         <i className="fas fa-user"></i> Welcome, {auth.user && auth.user.name}
       </p>
-      {profile.profile !== null ? (
+      {!profile.loading && (
         <>
-          <DashboardActions />
-        </>
-      ) : (
-        <>
-          <p>You have not yet made a profile.</p>
-          <Link to="/create-profile" className="btn btn-primary my-1">
-            Create Profile
-          </Link>
+          {profile.profile !== null ? (
+            <>
+              <DashboardActions />
+            </>
+          ) : (
+            <>
+              <p>You have not yet made a profile.</p>
+              <Link to="/create-profile" className="btn btn-primary my-1">
+                Create Profile
+              </Link>
+            </>
+          )}
         </>
       )}
     </>
