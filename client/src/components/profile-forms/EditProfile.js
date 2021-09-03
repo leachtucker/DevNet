@@ -21,13 +21,24 @@ const initialFormData = {
   instagram: ''
 };
 
-const EditProfile = ({ profile, loading, createProfile }) => {
+const EditProfile = ({
+  profile,
+  loading,
+  getCurrentProfile,
+  createProfile
+}) => {
   const [formData, setFormData] = useState(() => initialFormData);
   const [shouldDisplaySocial, toggleSocial] = useState(() => false);
   const history = useHistory();
 
+  // Fetch current profile after auth's loading state has changed
   useEffect(() => {
     getCurrentProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
+
+  // Set current formData each time profile's state has changed
+  useEffect(() => {
     setFormData((formData) => ({
       ...formData,
       company: loading || !profile.company ? '' : profile.company,
@@ -44,7 +55,9 @@ const EditProfile = ({ profile, loading, createProfile }) => {
       youtube: loading || !profile.youtube ? '' : profile.youtube,
       instagram: loading || !profile.instagram ? '' : profile.instagram
     }));
-  }, [loading, profile]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile]);
 
   const {
     company,
@@ -253,7 +266,7 @@ const EditProfile = ({ profile, loading, createProfile }) => {
 };
 
 EditProfile.propTypes = {
-  profile: PropTypes.object,
+  profile: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   createProfile: PropTypes.func.isRequired
@@ -261,7 +274,7 @@ EditProfile.propTypes = {
 
 const mapStateToProps = (state) => ({
   profile: state.profile.profile,
-  loading: state.profile.loading
+  loading: state.auth.loading
 });
 
 export default connect(mapStateToProps, { getCurrentProfile, createProfile })(
