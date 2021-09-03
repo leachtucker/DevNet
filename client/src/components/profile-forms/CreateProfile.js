@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
+
+import { createProfile } from '../../actions/profile';
 
 const initialFormData = {
   company: '',
@@ -18,9 +21,10 @@ const initialFormData = {
   instagram: ''
 };
 
-const CreateProfile = (props) => {
+const CreateProfile = ({ profile, createProfile }) => {
   const [formData, setFormData] = useState(() => initialFormData);
   const [shouldDisplaySocial, toggleSocial] = useState(() => false);
+  const history = useHistory();
 
   const {
     company,
@@ -43,6 +47,7 @@ const CreateProfile = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    createProfile(formData, history);
   };
 
   return (
@@ -60,7 +65,6 @@ const CreateProfile = (props) => {
             value={status}
             onChange={(e) => onChange(e)}
             required
-            defaultValue=""
           >
             <option value="" disabled>
               * Select Professional Status
@@ -228,6 +232,13 @@ const CreateProfile = (props) => {
   );
 };
 
-CreateProfile.propTypes = {};
+CreateProfile.propTypes = {
+  profile: PropTypes.object,
+  createProfile: PropTypes.func.isRequired
+};
 
-export default CreateProfile;
+const mapStateToProps = (state) => ({
+  profile: state.profile.profile
+});
+
+export default connect(mapStateToProps, { createProfile })(CreateProfile);
