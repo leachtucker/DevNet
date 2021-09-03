@@ -41,7 +41,7 @@ const Navbar = (props) => {
     <nav className="navbar bg-dark">
       <h1>
         <Link to="/">
-          <i className="fas fa-code"></i> DevConnector
+          <i className="fas fa-code"></i> DevNet
         </Link>
       </h1>
       {!props.loading && <>{props.isAuthenticated ? authLinks : guestLinks}</>}
