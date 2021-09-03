@@ -21,7 +21,7 @@ const initialFormData = {
   instagram: ''
 };
 
-const CreateProfile = ({ profile, createProfile }) => {
+const CreateProfile = ({ createProfile }) => {
   const [formData, setFormData] = useState(() => initialFormData);
   const [shouldDisplaySocial, toggleSocial] = useState(() => false);
   const history = useHistory();
@@ -233,12 +233,7 @@ const CreateProfile = ({ profile, createProfile }) => {
 };
 
 CreateProfile.propTypes = {
-  profile: PropTypes.object,
   createProfile: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  profile: state.profile.profile
-});
-
-export default connect(mapStateToProps, { createProfile })(CreateProfile);
+export default connect(null, { createProfile })(CreateProfile);
