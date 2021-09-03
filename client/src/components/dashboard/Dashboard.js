@@ -14,7 +14,7 @@ const Dashboard = ({ profile, auth, getCurrentProfile }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.loading, profile.loading]);
 
-  return profile.loading && profile.profile === null ? (
+  return profile.loading && auth.user === null && profile.profile === null ? (
     <Spinner />
   ) : (
     <>
