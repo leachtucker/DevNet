@@ -8,7 +8,8 @@ import {
   AUTH_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  CLEAR_PROFILE
 } from './types';
 
 import setAuthToken from '../utils/setAuthToken';
@@ -96,6 +97,7 @@ export const loadUser = () => async (dispatch) => {
     localStorage.removeItem('token');
 
     dispatch({ type: AUTH_FAIL });
+    dispatch({ type: CLEAR_PROFILE });
 
     // Send alerts
     const errors = err.response.data.errors;
@@ -115,6 +117,7 @@ export const logout = () => async (dispatch) => {
 
   // Clear state
   dispatch({ type: LOGOUT });
+  dispatch({ type: CLEAR_PROFILE });
 
   // Send an alert!
   dispatch(setAlert('Logged out!', 'success'));
