@@ -44,6 +44,7 @@ const Login = (props) => {
             placeholder="Email Address"
             name="email"
             value={email}
+            autoComplete="email"
             onChange={(e) => onChange(e)}
             required
           />
@@ -54,6 +55,7 @@ const Login = (props) => {
             placeholder="Password"
             name="password"
             minLength="6"
+            autoComplete="current-password"
             required
             value={password}
             onChange={(e) => onChange(e)}
