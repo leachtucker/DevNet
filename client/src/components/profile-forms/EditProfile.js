@@ -266,7 +266,7 @@ const EditProfile = ({
 };
 
 EditProfile.propTypes = {
-  profile: PropTypes.object.isRequired,
+  profile: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   createProfile: PropTypes.func.isRequired
