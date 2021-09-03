@@ -38,10 +38,12 @@ export const register =
     } catch (err) {
       dispatch({ type: REGISTER_FAIL });
 
-      const errors = err.response.data.errors;
+      const validationErrors = err.response.data.errors;
 
-      if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      if (validationErrors) {
+        validationErrors.forEach((error) =>
+          dispatch(setAlert(error.msg, 'danger'))
+        );
       } else {
         dispatch(setAlert("Uh oh! There's been an error on our end."));
       }
@@ -67,11 +69,13 @@ export const login =
     } catch (err) {
       dispatch({ type: LOGIN_FAIL });
 
-      const errors = err.response.data.errors;
+      const validationErrors = err.response.data.errors;
 
       // Send alerts
-      if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      if (validationErrors) {
+        validationErrors.forEach((error) =>
+          dispatch(setAlert(error.msg, 'danger'))
+        );
       } else {
         dispatch(setAlert("Uh oh! There's been an error on our end."));
       }
@@ -100,9 +104,11 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: CLEAR_PROFILE });
 
     // Send alerts
-    const errors = err.response.data.errors;
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    const validationErrors = err.response.data.errors;
+    if (validationErrors) {
+      validationErrors.forEach((error) =>
+        dispatch(setAlert(error.msg, 'danger'))
+      );
     }
   }
 };
