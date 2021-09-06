@@ -4,10 +4,14 @@ import { setAlert } from './alert';
 import {
   CREATE_PROFILE,
   GET_PROFILE,
+  GET_ALL_PROFILES,
   PROFILE_ERROR,
   REMOVE_EDUCATION,
   REMOVE_EXPERIENCE,
-  UPDATE_PROFILE
+  UPDATE_PROFILE,
+  GET_PROFILE_BY_ID,
+  CLEAR_PROFILE,
+  GET_GITHUB_REPOS
 } from './types';
 
 // Gets the current user's profile
@@ -18,6 +22,56 @@ export const getCurrentProfile = () => async (dispatch) => {
     dispatch({ type: GET_PROFILE, payload: res.data });
   } catch (err) {
     console.error(err);
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Get all profiles
+export const getAllProfiles = () => async (dispatch) => {
+  try {
+    const res = await axios.get('/api/profile');
+
+    dispatch({ type: GET_ALL_PROFILES, payload: res.data });
+  } catch (err) {
+    console.error(err);
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Get a profile by user ID
+export const getProfileByID = (userID) => async (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE });
+
+  try {
+    const res = await axios.get(`/api/profile/${userID}`);
+
+    dispatch({ type: GET_PROFILE_BY_ID, payload: res.data });
+  } catch (err) {
+    console.error(err);
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Get GitHub repos
+export const getGitHubRepos = (github_username) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/profile/github/${github_username}`);
+
+    dispatch({ type: GET_GITHUB_REPOS, payload: res.data });
+  } catch (err) {
+    console.error(err);
+
     dispatch({
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
@@ -46,6 +100,7 @@ export const createProfile =
       }
     } catch (err) {
       console.error(err);
+
       dispatch({
         type: PROFILE_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status }
@@ -76,6 +131,8 @@ export const addExperience =
       // Redirect user back to dashboard upon successfully adding experience
       history.push('/dashboard');
     } catch (err) {
+      console.error(err);
+
       const validationErrors = err.response.data.errors;
 
       if (validationErrors) {
@@ -106,6 +163,8 @@ export const addEducation = (educationFields, history) => async (dispatch) => {
     // Redirect user back to dashboard upon successfully adding education to profile
     history.push('/dashboard');
   } catch (err) {
+    console.error(err);
+
     const validationErrors = err.response.data.errors;
 
     if (validationErrors) {
@@ -130,6 +189,8 @@ export const deleteExperience = (id) => async (dispatch) => {
 
     dispatch(setAlert('Experience removed!'));
   } catch (err) {
+    console.error(err);
+
     const validationErrors = err.response.data.errors;
 
     if (validationErrors) {
@@ -154,6 +215,8 @@ export const deleteEducation = (id) => async (dispatch) => {
 
     dispatch(setAlert('Education removed!'));
   } catch (err) {
+    console.error(err);
+
     const validationErrors = err.response.data.errors;
 
     if (validationErrors) {
