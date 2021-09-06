@@ -29,6 +29,7 @@ const Dashboard = ({ profile, auth, getCurrentProfile }) => {
         {profile.profile !== null ? (
           <>
             <DashboardActions />
+            <Experience experience={profile.profile.experience} />
           </>
         ) : (
           <>
