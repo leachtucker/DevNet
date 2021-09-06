@@ -128,7 +128,7 @@ export const deleteExperience = (id) => async (dispatch) => {
 
     dispatch({ type: REMOVE_EXPERIENCE, payload: res.data });
 
-    dispatch(setAlert('Experience removed!', 'success'));
+    dispatch(setAlert('Experience removed!'));
   } catch (err) {
     const validationErrors = err.response.data.errors;
 
@@ -152,7 +152,7 @@ export const deleteEducation = (id) => async (dispatch) => {
 
     dispatch({ type: REMOVE_EDUCATION, payload: res.data });
 
-    dispatch(setAlert('Education removed!', 'success'));
+    dispatch(setAlert('Education removed!'));
   } catch (err) {
     const validationErrors = err.response.data.errors;
 
