@@ -6,7 +6,6 @@ import Spinner from '../layout/Spinner';
 import ProfileItem from './ProfileItem';
 
 import { getAllProfiles } from '../../actions/profile';
-import profile from '../../reducers/profile';
 
 const Profiles = ({ profiles, loading, getAllProfiles }) => {
   useEffect(() => {
