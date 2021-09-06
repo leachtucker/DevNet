@@ -1,4 +1,10 @@
-import { GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from '../actions/types';
+import {
+  GET_PROFILE,
+  CREATE_PROFILE,
+  PROFILE_ERROR,
+  CLEAR_PROFILE,
+  UPDATE_PROFILE
+} from '../actions/types';
 
 const initialState = {
   profile: null,
@@ -12,11 +18,12 @@ export default function profile(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case CREATE_PROFILE:
+    case UPDATE_PROFILE:
     case GET_PROFILE:
       return {
         ...state,
         profile: payload,
-        error: {},
         loading: false
       };
 
@@ -31,7 +38,8 @@ export default function profile(state = initialState, action) {
       return {
         ...state,
         profile: null,
-        repos: []
+        repos: [],
+        error: {}
       };
 
     default:
