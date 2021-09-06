@@ -3,7 +3,9 @@ import {
   CREATE_PROFILE,
   PROFILE_ERROR,
   CLEAR_PROFILE,
-  UPDATE_PROFILE
+  UPDATE_PROFILE,
+  REMOVE_EXPERIENCE,
+  REMOVE_EDUCATION
 } from '../actions/types';
 
 const initialState = {
@@ -18,6 +20,8 @@ export default function profile(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case REMOVE_EDUCATION:
+    case REMOVE_EXPERIENCE:
     case CREATE_PROFILE:
     case UPDATE_PROFILE:
     case GET_PROFILE:
