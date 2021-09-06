@@ -9,7 +9,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_PROFILE
+  CLEAR_PROFILE,
+  DELETE_ACCOUNT,
+  PROFILE_ERROR
 } from './types';
 
 import setAuthToken from '../utils/setAuthToken';
@@ -126,4 +128,26 @@ export const logout = () => async (dispatch) => {
 
   // Send an alert!
   dispatch(setAlert('Logged out!', 'success'));
+};
+
+// Delete account & profile
+export const deleteAccount = () => async (dispatch) => {
+  if (window.confirm('Are you sure you want to do that?')) {
+    try {
+      await axios.delete('/api/profile');
+
+      dispatch({ type: CLEAR_PROFILE });
+      dispatch({ type: DELETE_ACCOUNT });
+
+      // Remove auth token from local storage
+      localStorage.removeItem('token');
+
+      dispatch(setAlert('Account removed!'));
+    } catch (err) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
+  }
 };
