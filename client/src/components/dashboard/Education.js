@@ -39,7 +39,7 @@ const Education = ({ education, deleteEducation }) => {
             <th>School</th>
             <th className="hide-sm">Degree</th>
             <th className="hide-sm">Field of Study</th>
-            <th className="hide-sm">Years</th>
+            <th>Years</th>
             <th />
           </tr>
         </thead>
