@@ -1,0 +1,38 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+const ProfileItem = ({ profile }) => {
+  return (
+    <div className="profile bg-light">
+      <img src={profile.user.avatar} alt="" className="round-img" />
+      <div>
+        <h2>{profile.name}</h2>
+        <p>
+          {profile.status}
+          {profile.company && <span> at {profile.company}</span>}
+        </p>
+        <p className="my-1">
+          {profile.location && <span>{profile.location}</span>}
+        </p>
+        <Link to={`/profile/${profile._id}`} className="btn btn-primary">
+          View Profile
+        </Link>
+      </div>
+      <ul>
+        {profile.skills &&
+          profile.skills.map((skill, idx) => (
+            <li key={idx} className="text-primary">
+              <i className="fas fa-check"></i> {skill}
+            </li>
+          ))}
+      </ul>
+    </div>
+  );
+};
+
+ProfileItem.propTypes = {
+  profile: PropTypes.object.isRequired
+};
+
+export default ProfileItem;
