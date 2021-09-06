@@ -9,8 +9,9 @@ import Experience from './Experience';
 import Education from './Education';
 
 import { getCurrentProfile } from '../../actions/profile';
+import { deleteAccount } from '../../actions/auth';
 
-const Dashboard = ({ profile, auth, getCurrentProfile }) => {
+const Dashboard = ({ profile, auth, getCurrentProfile, deleteAccount }) => {
   useEffect(() => {
     getCurrentProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,6 +33,14 @@ const Dashboard = ({ profile, auth, getCurrentProfile }) => {
             <DashboardActions />
             <Experience experience={profile.profile.experience} />
             <Education education={profile.profile.education} />
+            <div className="my-2">
+              <button
+                className="btn btn-danger"
+                onClick={() => deleteAccount()}
+              >
+                <i className="fas fa-user-minus"></i> Delete My Account
+              </button>
+            </div>
           </>
         ) : (
           <>
@@ -49,7 +58,8 @@ const Dashboard = ({ profile, auth, getCurrentProfile }) => {
 Dashboard.propTypes = {
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired
+  getCurrentProfile: PropTypes.func.isRequired,
+  deleteAccount: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -57,4 +67,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
+  Dashboard
+);
