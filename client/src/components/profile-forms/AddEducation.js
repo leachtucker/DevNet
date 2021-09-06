@@ -84,7 +84,7 @@ const AddEducation = ({ addEducation }) => {
               name="current"
               checked={formData.current}
               value={formData.current}
-              onChange={(e) => {
+              onChange={() => {
                 setFormData({
                   ...formData,
                   current: !formData.current,
@@ -101,6 +101,7 @@ const AddEducation = ({ addEducation }) => {
           <input
             type="date"
             name="to"
+            disabled={toDateDisabled}
             value={formData.to}
             onChange={(e) => onChange(e)}
           />
