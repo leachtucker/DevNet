@@ -16,7 +16,7 @@ router.post('/', validator('registerUser'), async (req, res) => {
 
   try {
     // Check for existing user
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email: email.toLowerCase() });
 
     if (user) {
       return res.status(400).json({ errors: [{ msg: 'User already exists' }] })
@@ -32,7 +32,7 @@ router.post('/', validator('registerUser'), async (req, res) => {
     // Assign new User object with the given properties
     user = new User({
       name,
-      email,
+      email: email.toLowerCase(),
       avatar,
       password
     });
