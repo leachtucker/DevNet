@@ -224,9 +224,15 @@ const CreateProfile = ({ createProfile }) => {
           </>
         )}
         <input type="submit" className="btn btn-primary my-1" />
-        <Link to="/dashboard" className="btn btn-light my-1">
+        <button
+          className="btn btn-light my-1"
+          onClick={(e) => {
+            e.preventDefault();
+            history.goBack();
+          }}
+        >
           Go Back
-        </Link>
+        </button>
       </form>
     </>
   );
