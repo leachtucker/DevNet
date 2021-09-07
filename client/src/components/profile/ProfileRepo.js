@@ -28,7 +28,7 @@ const ProfileRepo = ({ repo }) => {
             Stars: {repo.stargazers_count}
           </li>
           <li className="badge badge-dark">Watchers: {repo.watchers_count}</li>
-          <li className="badge badge-light">Forks: {repo.forks}</li>
+          <li className="badge badge-light">Forks: {repo.forks_count}</li>
         </ul>
       </div>
     </div>
