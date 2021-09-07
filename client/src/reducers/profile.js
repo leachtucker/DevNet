@@ -8,7 +8,8 @@ import {
   REMOVE_EDUCATION,
   GET_ALL_PROFILES,
   GET_PROFILE_BY_ID,
-  GET_GITHUB_REPOS
+  GET_GITHUB_REPOS,
+  CLEAR_REPOS
 } from '../actions/types';
 
 const initialState = {
@@ -62,6 +63,12 @@ export default function profile(state = initialState, action) {
         profile: null,
         repos: [],
         error: {}
+      };
+
+    case CLEAR_REPOS:
+      return {
+        ...state,
+        repos: []
       };
 
     default:

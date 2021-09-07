@@ -11,7 +11,8 @@ import {
   UPDATE_PROFILE,
   GET_PROFILE_BY_ID,
   CLEAR_PROFILE,
-  GET_GITHUB_REPOS
+  GET_GITHUB_REPOS,
+  CLEAR_REPOS
 } from './types';
 
 // Gets the current user's profile
@@ -67,6 +68,8 @@ export const getProfileByID = (userID) => async (dispatch) => {
 
 // Get GitHub repos
 export const getGitHubRepos = (github_username) => async (dispatch) => {
+  dispatch({ type: CLEAR_REPOS });
+
   try {
     const res = await axios.get(`/api/profile/github/${github_username}`);
 
