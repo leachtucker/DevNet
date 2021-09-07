@@ -301,7 +301,10 @@ router.get('/github/:username', async (req, res) => {
   try {
     const reqURL = `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${config.get('githubClientID')}&client_secret=${config.get('githubSecret')}`;
 
-    const response = await axios.get(reqURL);
+    const client_id = config.get('githubClientID');
+    const client_secret = config.get('githubSecret');
+
+    const response = await axios.get(reqURL, {user: {client_id, client_secret}});
 
     res.json(response.data);
   } catch (err) {
