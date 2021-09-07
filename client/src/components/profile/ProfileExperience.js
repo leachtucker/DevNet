@@ -9,7 +9,7 @@ const ProfileExperience = ({ experience }) => {
       <p>
         <Moment format="YYYY/MM/DD">{experience.from}</Moment> -{' '}
         {!experience.to ? (
-          'Current'
+          <span>Current</span>
         ) : (
           <Moment format="YYYY/MM/DD">{experience.to}</Moment>
         )}
