@@ -30,8 +30,12 @@ const Dashboard = ({ profile, auth, getCurrentProfile, deleteAccount }) => {
         {profile.profile !== null ? (
           <>
             <DashboardActions />
-            <Experience experience={profile.profile.experience} />
-            <Education education={profile.profile.education} />
+            {!!profile.profile.experience.length && (
+              <Experience experience={profile.profile.experience} />
+            )}
+            {!!profile.profile.education.length && (
+              <Education education={profile.profile.education} />
+            )}
             <div className="my-2">
               <button
                 className="btn btn-danger"
