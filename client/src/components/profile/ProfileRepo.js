@@ -13,7 +13,7 @@ const ProfileRepo = ({ repo }) => {
         <p>
           {!repo.description ? (
             <>
-              <h4>No description for this repo.</h4>
+              <strong>No description for this repo.</strong>
             </>
           ) : (
             <>
