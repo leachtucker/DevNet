@@ -19,7 +19,10 @@ const Profiles = ({ profiles, loading, getAllProfiles }) => {
   return (
     <>
       <h1 className="large text-primary">Developers</h1>
-      <p className="lead">Browse and connect with fellow devs</p>
+      <p className="lead">
+        <i class="fab fa-connectdevelop"></i> Browse and connect with fellow
+        devs
+      </p>
       <div className="profiles">
         {!!profiles.length === true ? (
           profiles.map((prof) => <ProfileItem key={prof._id} profile={prof} />)
