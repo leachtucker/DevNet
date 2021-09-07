@@ -304,7 +304,7 @@ router.get('/github/:username', async (req, res) => {
     const client_id = config.get('githubClientID');
     const client_secret = config.get('githubSecret');
 
-    const response = await axios.get(reqURL, {user: {client_id, client_secret}});
+    const response = await axios.get(reqURL, {auth: {client_id, client_secret}});
 
     res.json(response.data);
   } catch (err) {
