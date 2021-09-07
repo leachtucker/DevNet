@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 
 import Spinner from '../layout/Spinner';
+import ProfileTop from './ProfileTop';
 
 import { getProfileByID } from '../../actions/profile';
 
@@ -21,7 +22,6 @@ const Profile = ({ match, profile, loading, auth, getProfileByID }) => {
 
   return (
     <>
-      Profile
       <button className="btn btn-light" onClick={() => history.goBack()}>
         Go Back
       </button>
@@ -30,6 +30,9 @@ const Profile = ({ match, profile, loading, auth, getProfileByID }) => {
           Edit Profile
         </Link>
       )}
+      <div class="profile-grid my-1">
+        <ProfileTop profile={profile} />
+      </div>
     </>
   );
 };
