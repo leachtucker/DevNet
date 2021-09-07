@@ -8,16 +8,30 @@ import Spinner from '../layout/Spinner';
 import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
 import ProfileExperience from './ProfileExperience';
-
-import { getProfileByID } from '../../actions/profile';
+import ProfileRepo from './ProfileRepo';
 import ProfileEducation from './ProfileEducation';
 
-const Profile = ({ match, profile, loading, auth, getProfileByID }) => {
+import { getProfileByID, getGitHubRepos } from '../../actions/profile';
+
+const Profile = ({
+  match,
+  profile,
+  repos,
+  loading,
+  auth,
+  getProfileByID,
+  getGitHubRepos
+}) => {
   const history = useHistory();
 
   useEffect(() => {
     getProfileByID(match.params.id);
   }, [getProfileByID, match.params.id]);
+
+  useEffect(() => {
+    if (profile && profile.githubusername)
+      getGitHubRepos(profile.githubusername);
+  }, [getGitHubRepos, profile]);
 
   if (loading || profile === null || auth.loading) {
     return <Spinner />;
@@ -64,6 +78,23 @@ const Profile = ({ match, profile, loading, auth, getProfileByID }) => {
             </>
           )}
         </div>
+        {/* GitHub Repos List */}
+        <div className="profile-github">
+          <h2 className="text-primary my-1">
+            <i className="fab fa-github"></i> Github Repos
+          </h2>
+          {!repos ? (
+            <>
+              <h4>No repos</h4>
+            </>
+          ) : (
+            <>
+              {repos.map((repo) => (
+                <ProfileRepo key={repo.id} repo={repo} />
+              ))}
+            </>
+          )}
+        </div>
       </div>
     </>
   );
@@ -72,15 +103,20 @@ const Profile = ({ match, profile, loading, auth, getProfileByID }) => {
 Profile.propTypes = {
   match: PropTypes.object.isRequired,
   profile: PropTypes.object,
+  repos: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   auth: PropTypes.object.isRequired,
-  getProfileByID: PropTypes.func.isRequired
+  getProfileByID: PropTypes.func.isRequired,
+  getGitHubRepos: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile.profile,
+  repos: state.profile.repos,
   loading: state.profile.loading,
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getProfileByID })(Profile);
+export default connect(mapStateToProps, { getProfileByID, getGitHubRepos })(
+  Profile
+);
