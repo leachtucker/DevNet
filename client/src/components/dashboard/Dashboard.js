@@ -14,8 +14,7 @@ import { deleteAccount } from '../../actions/auth';
 const Dashboard = ({ profile, auth, getCurrentProfile, deleteAccount }) => {
   useEffect(() => {
     getCurrentProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth.loading, profile.loading]);
+  }, [auth.loading, profile.loading, getCurrentProfile]);
 
   if (profile.loading || auth.user === null) {
     return <Spinner />;

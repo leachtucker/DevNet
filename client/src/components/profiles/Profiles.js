@@ -10,8 +10,7 @@ import { getAllProfiles } from '../../actions/profile';
 const Profiles = ({ profiles, loading, getAllProfiles }) => {
   useEffect(() => {
     getAllProfiles();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getAllProfiles]);
 
   if (loading) {
     return <Spinner />;
