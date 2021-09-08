@@ -5,20 +5,33 @@ import { connect } from 'react-redux';
 import { getAllPosts } from '../../actions/post';
 
 import Spinner from '../layout/Spinner';
+import PostItem from './PostItem';
 
 const Posts = ({ posts, loading, getAllPosts }) => {
   useEffect(() => {
     getAllPosts();
   }, [getAllPosts]);
 
-  if (loading) return <Spinner />;
-
   return (
     <>
-      <h1 class="large text-primary">Posts</h1>
-      <p class="lead">
-        <i class="fas fa-user"></i> Welcome to the community!
+      <h1 className="large text-primary">Posts</h1>
+      <p className="lead">
+        <i className="fas fa-user"></i> Welcome to the community!
       </p>
+      {/* Post Form goes here */}
+      <div className="posts">
+        {/* Posts go here */}
+        {loading ? (
+          <>
+            <Spinner />
+          </>
+        ) : (
+          <>
+            {posts &&
+              posts.map((post) => <PostItem key={post._id} post={post} />)}
+          </>
+        )}
+      </div>
     </>
   );
 };
