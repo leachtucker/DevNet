@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getAllPosts } from '../../actions/post';
 
 import Spinner from '../layout/Spinner';
+import PostForm from './PostForm';
 import PostItem from './PostItem';
 
 const Posts = ({ posts, loading, getAllPosts }) => {
@@ -18,9 +19,8 @@ const Posts = ({ posts, loading, getAllPosts }) => {
       <p className="lead">
         <i className="fas fa-user"></i> Welcome to the community!
       </p>
-      {/* Post Form goes here */}
+      <PostForm />
       <div className="posts">
-        {/* Posts go here */}
         {loading ? (
           <>
             <Spinner />
