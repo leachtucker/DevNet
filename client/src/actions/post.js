@@ -5,6 +5,7 @@ import {
   CREATE_POST,
   DELETE_POST,
   GET_POSTS,
+  GET_POST_BY_ID,
   LIKE_POST,
   POST_ERROR,
   UNLIKE_POST
@@ -16,6 +17,22 @@ export const getAllPosts = () => async (dispatch) => {
     const res = await axios.get('/api/posts');
 
     dispatch({ type: GET_POSTS, payload: res.data });
+  } catch (err) {
+    console.error(err);
+
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Gets a post by ID
+export const getPostByID = (post_id) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/posts/${post_id}`);
+
+    dispatch({ type: GET_POST_BY_ID, payload: res.data });
   } catch (err) {
     console.error(err);
 
