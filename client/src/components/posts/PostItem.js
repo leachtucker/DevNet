@@ -46,7 +46,7 @@ const PostItem = ({ post, user, deletePost, likePost, unlikePost }) => {
         >
           <i className="fas fa-thumbs-down"></i>
         </button>
-        <Link href="post.html" className="btn btn-primary">
+        <Link to={`/post/${post._id}`} className="btn btn-primary">
           Discussion{' '}
           <span className="comment-count">{post.comments.length}</span>
         </Link>
