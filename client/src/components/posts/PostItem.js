@@ -53,7 +53,7 @@ const PostItem = ({ post, user, deletePost, likePost, unlikePost }) => {
         {/* Display delete button only if the user matches the post's user */}
         {post.user._id === user._id && (
           <button type="button" className="btn btn-danger" onClick={onDelete}>
-            <i className="fas fa-times"></i>
+            <i className="fas fa-trash"></i>
           </button>
         )}
       </div>
