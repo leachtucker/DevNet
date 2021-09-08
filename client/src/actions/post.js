@@ -2,6 +2,7 @@ import axios from 'axios';
 import { setAlert } from './alert';
 
 import {
+  CREATE_POST,
   DELETE_POST,
   GET_POSTS,
   LIKE_POST,
@@ -17,6 +18,32 @@ export const getAllPosts = () => async (dispatch) => {
     dispatch({ type: GET_POSTS, payload: res.data });
   } catch (err) {
     console.error(err);
+
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Creates a post
+export const createPost = (postFields) => async (dispatch) => {
+  try {
+    const res = await axios.post('/api/posts', postFields);
+
+    dispatch({ type: CREATE_POST, payload: res.data });
+
+    dispatch(setAlert('Post created!', 'success'));
+  } catch (err) {
+    console.error(err);
+
+    const validationErrors = err.response.data.errors;
+
+    if (validationErrors) {
+      validationErrors.forEach((error) =>
+        dispatch(setAlert(error.msg, 'danger'))
+      );
+    }
 
     dispatch({
       type: POST_ERROR,
