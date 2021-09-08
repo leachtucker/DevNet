@@ -209,6 +209,11 @@ img {
   opacity: 0.8;
 }
 
+.btn:disabled,
+.btn:disabled:hover {
+  opacity: 0.5;
+}
+
 .bg-light,
 .badge-light {
   border: #ccc solid 1px;
