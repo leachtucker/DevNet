@@ -20,4 +20,7 @@ export const REMOVE_EXPERIENCE = 'REMOVE_EXPERIENCE';
 export const REMOVE_EDUCATION = 'REMOVE_EDUCATION';
 export const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
 export const GET_POSTS = 'GET_POSTS';
+export const DELETE_POST = 'DELETE_POST';
+export const LIKE_POST = 'LIKE_POST';
+export const UNLIKE_POST = 'UNLIKE_POST';
 export const POST_ERROR = 'POST_ERROR';
