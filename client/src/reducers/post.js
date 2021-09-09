@@ -67,10 +67,9 @@ export default function post(state = initialState, action) {
     case UNLIKE_POST:
       return {
         ...state,
-        posts: state.posts.map((post) => {
-          if (post._id === payload.id) return { ...post, likes: payload.likes };
-          return post;
-        }),
+        posts: state.posts.map((post) =>
+          post._id === payload.id ? { ...post, likes: payload.likes } : post
+        ),
         loading: false
       };
 
