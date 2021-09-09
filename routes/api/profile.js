@@ -130,15 +130,30 @@ router.get('/user/:user_id', async (req, res) => {
 });
 
 // @route   DELETE api/profile/
-// @desc    Delete profile, user, and posts
+// @desc    Delete profile, user, posts, and comments
 // @access  Private
 router.delete('/', auth(), async (req, res) => {
   try {
     await Post.deleteMany({ user: req.user.id });
+
+    // Delete comments/likes associated with user's ID from all posts
+    // This is a costly operation and could be avoided by setting likes/comments in their own respective collections
+    const posts = await Post.find();
+
+    if (posts) {
+      posts.forEach(async post => {
+        post.likes = post.likes.filter(like => (like.user._id.toHexString() !== req.user.id));
+        post.comments = post.comments.filter(comment => (comment.user._id.toHexString() !== req.user.id));
+        post.markModified('likes');
+        post.markModified('comments');
+        await post.save();
+      })
+    }
+
     await Profile.findOneAndRemove({ user: req.user.id });
     await User.findOneAndRemove({ _id: req.user.id });
 
-    res.json({ msg: "User, profile, and posts removed" });
+    res.json({ msg: "User, profile, posts, and comments removed" });
   } catch (err) {
     console.error(err);
 
