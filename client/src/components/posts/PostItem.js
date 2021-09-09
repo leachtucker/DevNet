@@ -36,7 +36,8 @@ const PostItem = ({ post, user, deletePost, likePost, unlikePost }) => {
           onClick={onLike}
           disabled={hasLikedPost}
         >
-          <i className="fas fa-thumbs-up"></i> <span>{post.likes.length}</span>
+          <i className="fas fa-thumbs-up"></i>{' '}
+          {!!post.likes.length && <span>{post.likes.length}</span>}
         </button>
         <button
           type="button"
@@ -46,9 +47,12 @@ const PostItem = ({ post, user, deletePost, likePost, unlikePost }) => {
         >
           <i className="fas fa-thumbs-down"></i>
         </button>
+
         <Link to={`/post/${post._id}`} className="btn btn-primary">
           Discussion{' '}
-          <span className="comment-count">{post.comments.length}</span>
+          {!!post.comments.length && (
+            <span className="comment-count">{post.comments.length}</span>
+          )}
         </Link>
         {/* Display delete button only if the user matches the post's user */}
         {post.user._id === user._id && (
