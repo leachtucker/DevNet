@@ -580,3 +580,7 @@ button {
     padding: 0.3rem 0.4rem;
   }
 }
+
+.not-found {
+  text-align: center;
+}
