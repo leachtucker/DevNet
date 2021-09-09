@@ -4,18 +4,21 @@ import { connect } from 'react-redux';
 
 import { createComment } from '../../actions/post';
 
-const initialState = {
+const initialFormData = {
   text: ''
 };
 
 const PostCommentForm = ({ post_id, createComment }) => {
-  const [formData, setFormData] = useState(() => initialState);
+  const [formData, setFormData] = useState(() => initialFormData);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onSubmit = (e) => {
     e.preventDefault();
     createComment(post_id, formData);
+
+    // Clear formdata
+    setFormData(initialFormData);
   };
 
   return (
