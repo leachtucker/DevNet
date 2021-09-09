@@ -12,7 +12,7 @@ router.post('/', auth(), validator('createPost'), async (req, res) => {
   try {
     const newPostFields = {
       user: req.user.id,
-      text: req.body.text,
+      text: req.body.text.trim(),
     };
 
     let post = await new Post(newPostFields).save();
@@ -50,7 +50,9 @@ router.get('/', auth(), async (req, res) => {
 // @access  Private
 router.get('/:post_id', auth(), async (req, res) => {
   try {
-    const post = await Post.findById(req.params.post_id).populate('user', ['name', 'avatar']).populate({ path: 'comments.user', model: 'user', select: '_id avatar name' });
+    const post = await Post.findById(req.params.post_id)
+    .populate('user', ['name', 'avatar'])
+    .populate({ path: 'comments.user', model: 'user', select: '_id avatar name' });
 
     if (!post) {
       return res.status(404).json({ msg: "Post not found" });
@@ -175,7 +177,7 @@ router.post('/comment/:post_id', auth(), validator('createComment'), async (req,
 
     const newComment = {
       user: req.user.id,
-      text: req.body.text,
+      text: req.body.text.trim(),
     };
 
     // Add new comment to beginning of array--unshift
