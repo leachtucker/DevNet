@@ -50,7 +50,7 @@ router.get('/', auth(), async (req, res) => {
 // @access  Private
 router.get('/:post_id', auth(), async (req, res) => {
   try {
-    const post = await Post.findById(req.params.post_id).populate('user', ['name', 'avatar']);
+    const post = await Post.findById(req.params.post_id).populate('user', ['name', 'avatar']).populate({ path: 'comments.user', model: 'user', select: '_id avatar name' });
 
     if (!post) {
       return res.status(404).json({ msg: "Post not found" });
