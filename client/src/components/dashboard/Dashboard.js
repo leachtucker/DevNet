@@ -16,7 +16,7 @@ const Dashboard = ({ profile, auth, getCurrentProfile, deleteAccount }) => {
     getCurrentProfile();
   }, [auth.loading, profile.loading, getCurrentProfile]);
 
-  if (profile.loading || auth.user === null) {
+  if (profile.loading && profile.profile === null) {
     return <Spinner />;
   }
 
