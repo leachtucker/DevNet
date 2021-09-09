@@ -19,7 +19,7 @@ const PostItem = ({ post, user, deletePost, likePost, unlikePost }) => {
   return (
     <div className="post bg-white p-1 my-1">
       <div>
-        <Link to={`/profile/${user._id}`}>
+        <Link to={`/profile/${post.user._id}`}>
           <img className="round-img" src={post.user.avatar} alt="user avatar" />
           <h4>{post.user.name}</h4>
         </Link>
