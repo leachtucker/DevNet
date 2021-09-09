@@ -11,9 +11,9 @@ const CommentItem = ({ post_id, comment, user, deleteComment }) => {
   return (
     <div className="post bg-white p-1 my-1">
       <div>
-        <Link to={`/profile/${comment.user._id}`}>
+        <Link to={`/profile/${comment.user._id ? comment.user._id : ''}`}>
           <img className="round-img" src={comment.user.avatar} alt="" />
-          <h4>{comment.user.name}</h4>
+          <h4>{comment.user.name ? comment.user.name : '[Deleted]'}</h4>
         </Link>
       </div>
       <div>
@@ -22,7 +22,7 @@ const CommentItem = ({ post_id, comment, user, deleteComment }) => {
           Posted on <Moment date={comment.date} format="DD/MM/YYYY" /> at{' '}
           <Moment date={comment.date} format="hh:mm A" />
         </p>
-        {user !== null && user._id === comment.user._id && (
+        {comment.user && user !== null && user._id === comment.user._id && (
           <button
             type="button"
             className="btn btn-danger"
