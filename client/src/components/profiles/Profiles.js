@@ -20,7 +20,7 @@ const Profiles = ({ profiles, loading, getAllProfiles }) => {
     <>
       <h1 className="large text-primary">Developers</h1>
       <p className="lead">
-        <i class="fab fa-connectdevelop"></i> Browse and connect with fellow
+        <i className="fab fa-connectdevelop"></i> Browse and connect with fellow
         devs
       </p>
       <div className="profiles">
