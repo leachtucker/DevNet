@@ -23,10 +23,15 @@ export const getAllPosts = () => async (dispatch) => {
   } catch (err) {
     console.error(err);
 
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
+    if (err.response) {
+      dispatch({
+        type: POST_ERROR,
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status
+        }
+      });
+    }
   }
 };
 
