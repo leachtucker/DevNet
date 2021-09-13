@@ -15,7 +15,7 @@ const ProfileAbout = ({ profile }) => (
     <h2 className="text-primary">Skill Set</h2>
     <div className="skills">
       {profile.skills &&
-        profile.skills.map((skill, idx) => (
+        profile.skills.splice(0, 8).map((skill, idx) => (
           <div key={idx} className="p-1">
             <i className="fa fa-check"></i> {skill}
           </div>
